@@ -7,12 +7,15 @@ import com.flipkart.zjsonpatch.JsonPatch;
 import com.flipkart.zjsonpatch.JsonPatchApplicationException;
 import com.javadabadu.disney.models.entity.Genero;
 import com.javadabadu.disney.service.GeneroService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.net.URI;
+import java.util.Iterator;
 
 @RestController
 @CrossOrigin("*")
@@ -59,7 +62,7 @@ public class GeneroController {
         );
     }
 
-    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "/viejo/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody JsonNode patch) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -73,6 +76,44 @@ public class GeneroController {
             generoService.save(searchedGenero);
             return ResponseEntity.ok(searchedGenero);
 
+        } catch (JsonPatchApplicationException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody String patch) {
+
+        JSONObject cambios = new JSONObject(patch);
+
+        try {
+
+            Genero aModificar = generoService.findById(id).orElseThrow(() -> new Exception());
+            System.out.println(cambios);
+            Iterator<String> it = cambios.keys();
+
+            String llave;
+            String valor;
+
+            while (it.hasNext()){
+                llave = it.next();
+                valor = (String) cambios.get(llave);
+
+                try {
+                    Field nameField = aModificar.getClass().getDeclaredField(llave);
+                    nameField.setAccessible(true);
+                    nameField.set(aModificar, valor);
+                } catch (NoSuchFieldException e){
+                    System.err.println("El campo ("+llave+")indicado no existe");
+                } catch(IllegalAccessException e) {
+                    System.err.println("El campo indicado ("+llave+")no puede modificarse (privado)");
+                }
+            }
+
+            generoService.save(aModificar);
+            return ResponseEntity.ok(aModificar);
         } catch (JsonPatchApplicationException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
