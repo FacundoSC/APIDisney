@@ -12,4 +12,5 @@ public interface GeneroService {
     Integer lastValueId();
     Genero update(Genero genero, Integer id);
     Boolean softDelete(Integer id);
+    Genero updateV2(Integer id, String patch) throws Exception;
 }

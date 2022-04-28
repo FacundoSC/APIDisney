@@ -83,42 +83,9 @@ public class GeneroController {
         }
     }
 
-    @PatchMapping(path = "/v2/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody String patch) {
-
-        JSONObject cambios = new JSONObject(patch);
-
-        try {
-
-            Genero aModificar = generoService.findById(id).orElseThrow(() -> new Exception());
-            System.out.println(cambios);
-            Iterator<String> it = cambios.keys();
-
-            String llave;
-            String valor;
-
-            while (it.hasNext()){
-                llave = it.next();
-                valor = (String) cambios.get(llave);
-
-                try {
-                    Field nameField = aModificar.getClass().getDeclaredField(llave);
-                    nameField.setAccessible(true);
-                    nameField.set(aModificar, valor);
-                } catch (NoSuchFieldException e){
-                    System.err.println("El campo ("+llave+")indicado no existe");
-                } catch(IllegalAccessException e) {
-                    System.err.println("El campo indicado ("+llave+")no puede modificarse (privado)");
-                }
-            }
-
-            generoService.save(aModificar);
-            return ResponseEntity.ok(aModificar);
-        } catch (JsonPatchApplicationException | JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @PatchMapping(path = "/updateV2/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody String patch) throws Exception {
+        return ResponseEntity.ok(generoService.updateV2(id, patch));
     }
 
     @DeleteMapping("/{id}")
