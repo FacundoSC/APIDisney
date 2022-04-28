@@ -62,7 +62,7 @@ public class GeneroController {
         );
     }
 
-    @PatchMapping(path = "/viejo/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody JsonNode patch) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -83,7 +83,7 @@ public class GeneroController {
         }
     }
 
-    @PatchMapping(path = "/{id}")
+    @PatchMapping(path = "/v2/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody String patch) {
 
         JSONObject cambios = new JSONObject(patch);
