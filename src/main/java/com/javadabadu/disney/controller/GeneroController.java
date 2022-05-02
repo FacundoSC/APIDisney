@@ -1,13 +1,12 @@
 package com.javadabadu.disney.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.dto.ResponseInfoDTO;
 import com.javadabadu.disney.models.entity.Genero;
 import com.javadabadu.disney.service.GeneroService;
+import com.javadabadu.disney.util.PathGenero;
 import com.javadabadu.disney.util.Uri;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,22 +57,16 @@ public class GeneroController {
    @PatchMapping(path = "/{id}", consumes = "application/merge-patch+json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody Map<String, Object> propiedades, HttpServletRequest request) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
             Genero searchedGenero = generoService.findById(id);
-            Map<String, Object> searchedGeneroMap = mapper.convertValue(searchedGenero, Map.class);
+            PathGenero pathGenero = new PathGenero();
             propiedades.forEach((k, v) -> {
-                if (searchedGeneroMap.containsKey(k)) {
-                    searchedGeneroMap.replace(k, searchedGeneroMap.get(k), v);
-                }
+                if (pathGenero.contains(k, searchedGenero))
+                    pathGenero.parcharGenero(k, v, searchedGenero);
             });
-            searchedGenero = mapper.convertValue(searchedGeneroMap, Genero.class);
-            System.out.println(">>>>>>>>> CONTROLLER! ");
-            System.out.println(generoService.update(searchedGenero));
             return ResponseEntity.status(HttpStatus.OK).body(generoService.update(searchedGenero));
 
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseInfoDTO(ebd.getMessage(), request.getRequestURI(), HttpStatus.NOT_FOUND.value()));
-
     }}
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
