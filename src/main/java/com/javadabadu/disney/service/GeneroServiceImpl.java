@@ -33,6 +33,13 @@ public class GeneroServiceImpl implements GeneroService {
         return generoRepository.findAll();
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer lastValueId() {
+        return generoRepository.lastValueId();
+    }
+
     @Override
     @Transactional
     public Genero save(Genero genero, Integer id) throws ExceptionBBDD {
@@ -44,17 +51,10 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Integer lastValueId() {
-        return generoRepository.lastValueId();
-    }
-
-    @Override
     @Transactional
     public Genero update(Genero genero) throws ExceptionBBDD {
-        String response =generoRepository.update(genero.getId(), genero.getNombre(),genero.getImagen());
+        String response = generoRepository.update(genero.getId(), genero.getNombre(), genero.getImagen());
         return responseBBDD(response, genero.getId());
-
     }
 
     @Override

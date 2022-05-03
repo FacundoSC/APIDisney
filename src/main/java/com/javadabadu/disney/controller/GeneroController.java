@@ -46,11 +46,11 @@ public class GeneroController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@RequestBody Genero genero, @PathVariable Integer id, HttpServletRequest request) {
+    public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody Genero genero, HttpServletRequest request) {
         try {
             return ResponseEntity.ok().body(generoService.save(genero, id));
         } catch (ExceptionBBDD ebd) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfoDTO(ebd.getMessage(),request.getRequestURI(), HttpStatus.BAD_REQUEST.value()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfoDTO(ebd.getMessage(), request.getRequestURI(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
@@ -63,7 +63,7 @@ public class GeneroController {
                 if (pathGenero.contains(k, searchedGenero))
                     pathGenero.parcharGenero(k, v, searchedGenero);
             });
-            return ResponseEntity.status(HttpStatus.OK).body(generoService.update(searchedGenero));
+            return ResponseEntity.status(HttpStatus.OK).body(generoService.save(searchedGenero, id));
 
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseInfoDTO(ebd.getMessage(), request.getRequestURI(), HttpStatus.NOT_FOUND.value()));
