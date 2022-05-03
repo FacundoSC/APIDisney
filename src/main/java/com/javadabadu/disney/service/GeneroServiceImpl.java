@@ -6,6 +6,7 @@ import com.javadabadu.disney.repository.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class GeneroServiceImpl implements GeneroService {
 
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Genero findById(Integer id) throws ExceptionBBDD {
         return generoRepository.findById(id).orElseThrow(()-> new ExceptionBBDD(message.getMessage("id.not.found", new String[]{Integer.toString(id)}, Locale.US)));
     }
@@ -32,7 +33,6 @@ public class GeneroServiceImpl implements GeneroService {
     public List<Genero> findAll() {
         return generoRepository.findAll();
     }
-
 
     @Override
     @Transactional(readOnly = true)
