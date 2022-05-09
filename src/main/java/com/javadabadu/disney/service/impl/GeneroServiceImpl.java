@@ -2,7 +2,6 @@ package com.javadabadu.disney.service.impl;
 
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.entity.Genero;
-import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +95,7 @@ public class GeneroServiceImpl implements GeneroService {
             source = genero;
             return source;
         } else {
-            return genero  ;
+            return genero;
         }
     }
 }

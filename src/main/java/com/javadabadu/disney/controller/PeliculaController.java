@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = Uri.PELICULAS)
 public class PeliculaController {
+
     @Autowired
     PeliculaService peliculaService;
 
