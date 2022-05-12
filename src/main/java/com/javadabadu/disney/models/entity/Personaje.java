@@ -38,4 +38,14 @@ public class Personaje {
 
     @ManyToMany(mappedBy="personajes")
     private List<AudioVisual> audioVisual = new ArrayList<>();
+
+    public Personaje(Integer id, String nombre, int edad, String historia, String imagen, float peso, TipoPersonaje tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.historia = historia;
+        this.imagen = imagen;
+        this.peso = peso;
+        this.tipo = tipo;
+    }
 }
