@@ -155,7 +155,6 @@ public class PersonajeServiceImpl implements PersonajeService {
         } catch (ExceptionBBDD ebd2) {
             throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     public Link getSelfLink(Integer id, HttpServletRequest request) throws ExceptionBBDD {
