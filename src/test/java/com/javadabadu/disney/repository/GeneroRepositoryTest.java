@@ -32,15 +32,14 @@ class GeneroRepositoryTest {
 
     @Test
     void lastValueIdTest() {
-        int esperado = generoRepository.lastValueId();
+        int esperado = generoRepository.lastValueId(); //otra forma
         int actual = generoRepository.lastValueId();
         assertEquals(esperado, actual, "los identificadores no son iguales");
     }
     @Test
     @Disabled
     void softDeleteTest() {
-        boolean actual = generoRepository.softDelete(1);
-        assertEquals(true, actual, "fallo al intentar deshabilitar genero");
+        assertEquals(true, generoRepository.softDelete(1), "fallo al intentar deshabilitar genero");
     }
 
     @Test
