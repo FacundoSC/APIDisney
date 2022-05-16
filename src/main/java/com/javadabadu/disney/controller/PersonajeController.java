@@ -30,10 +30,8 @@ public class PersonajeController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findById(@PathVariable Integer id, HttpServletRequest request) throws ExceptionBBDD {
-
         PersonajeResponseDTO personajeDTO = personajeService.findById(id);
         return ResponseEntity.ok().body(EntityModel.of(personajeDTO, personajeService.getSelfLink(id, request), personajeService.getCollectionLink(request)));
-
     }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +60,7 @@ public class PersonajeController {
         Personaje source = personajeService.getEntitySave(personaje, id);
         PersonajeResponseDTO personajeDTO = personajeService.save(source);
         return ResponseEntity.ok().body(EntityModel.of(personajeDTO, personajeService.getSelfLink(id, request), personajeService.getCollectionLink(request)));
-
+        //Todo porque ok y no created?
     }
 
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -100,5 +98,6 @@ public class PersonajeController {
         }
         return ResponseEntity.ok().body(CollectionModel.of(personajes, personajeService.getCollectionLink(request)));
     }
+
 
 }

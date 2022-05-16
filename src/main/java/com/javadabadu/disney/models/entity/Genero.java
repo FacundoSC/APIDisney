@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @Entity
 @Table(name = "genero")
@@ -26,6 +25,4 @@ public class Genero {
 
     @OneToMany(mappedBy = "genero")
     private List<AudioVisual> audioVisuals = new ArrayList<>();
-
-
 }

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -49,17 +50,17 @@ class PersonajeServiceImplTest {
 
     @Test
     void findAllTest() throws ExceptionBBDD {
-        when(personajeRepository.findAll()).thenReturn(PersonajeData.crearListaPersonajes());
+        when(personajeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))).thenReturn(PersonajeData.crearListaPersonajes());
         when(mapperDTO.listPersonajeToResponseDTO(PersonajeData.crearListaPersonajes())).thenReturn(PersonajeData.crearListaPersonajesDto());
 
         assertNotNull(personajeService.findAll());
-        assertEquals(1,personajeService.findAll().get(0).getId());
+        assertEquals(1, personajeService.findAll().get(0).getId());
         assertEquals(2, personajeService.findAll().get(1).getId());
-        assertEquals("Personaje nombre uno", personajeService.findAll().get(0).getNombre() );
+        assertEquals("Personaje nombre uno", personajeService.findAll().get(0).getNombre());
         assertEquals("Personaje nombre dos", personajeService.findAll().get(1).getNombre());
         assertTrue(personajeService.findAll().size() > 1);
 
-        verify(personajeRepository, times(6)).findAll();
+        verify(personajeRepository, times(6)).findAll(Sort.by(Sort.Direction.ASC, "id"));
         //verify(mapperDTO, times(6)).personajeToResponseDTO(any(Personaje.class));
     }
 
@@ -81,8 +82,8 @@ class PersonajeServiceImplTest {
 
         assertEquals("Se elimino el personaje seleccionado", personajeService.softDelete(1));
 
-        assertThrows(ExceptionBBDD.class, ()->{
-           personajeService.softDelete(2);
+        assertThrows(ExceptionBBDD.class, () -> {
+            personajeService.softDelete(2);
         });
     }
 
@@ -91,9 +92,7 @@ class PersonajeServiceImplTest {
         when(personajeRepository.existsById(1)).thenReturn(true);
 
         assertTrue(personajeService.existsById(1));
-        assertThrows(ExceptionBBDD.class, ()->{
-            personajeService.existsById(2);
-        });
+        assertFalse(personajeService.existsById(2000));
     }
 
     @Test
@@ -102,17 +101,17 @@ class PersonajeServiceImplTest {
         assertEquals(10, personajeService.lastValueId());
 
         when(personajeRepository.lastValueId()).thenReturn(-1);
-        assertThrows(ExceptionBBDD.class, ()->{
+        assertThrows(ExceptionBBDD.class, () -> {
             personajeService.lastValueId();
         });
     }
 
     @Test
     void filterCharacterFindByNombreTest() throws ExceptionBBDD {
-        when(personajeRepository.findByNombre("Franck")).thenReturn(PersonajeData.crearListaPersonajes());
+        when(personajeRepository.findByNombre("Personaje nombre uno")).thenReturn(PersonajeData.crearListaPersonajes());
         when(mapperDTO.listPersonajeToResponseDTO(PersonajeData.crearListaPersonajes())).thenReturn(PersonajeData.crearListaPersonajesDto());
-        assertNotNull(personajeService.filterCharacter("Franck", null, null));
-        assertTrue(personajeService.filterCharacter("Franck", null, null).size()>0);
+        assertNotNull(personajeService.filterCharacter("Personaje nombre uno", null, null));
+        assertTrue(personajeService.filterCharacter("Personaje nombre uno", null, null).size() > 0);
     }
 
     @Test
@@ -121,7 +120,16 @@ class PersonajeServiceImplTest {
         when(mapperDTO.listPersonajeToResponseDTO(PersonajeData.crearListaPersonajes())).thenReturn(PersonajeData.crearListaPersonajesDto());
 
         assertNotNull(personajeService.filterCharacter(null, 10, null));
-        assertTrue(personajeService.filterCharacter(null, 10, null).size()>0);
+        assertTrue(personajeService.filterCharacter(null, 10, null).size() > 0);
+    }
+
+    @Test
+    void filterCharacterFindByEdadYNombreTest() throws ExceptionBBDD {
+        when(personajeRepository.findByEdadYNombre("Personaje nombre uno", 20)).thenReturn(PersonajeData.crearListaPersonajes());
+        when(mapperDTO.listPersonajeToResponseDTO(PersonajeData.crearListaPersonajes())).thenReturn(PersonajeData.crearListaPersonajesDto());
+
+        assertNotNull(personajeService.filterCharacter("Personaje nombre uno", 20, null));
+        assertTrue(personajeService.filterCharacter("Personaje nombre uno", 20, null).size() > 0);
     }
 
     @Test
@@ -129,6 +137,6 @@ class PersonajeServiceImplTest {
         when(personajeRepository.findByMovieId(1)).thenReturn(PersonajeData.crearListaPersonajes());
         when(mapperDTO.listPersonajeToResponseDTO(PersonajeData.crearListaPersonajes())).thenReturn(PersonajeData.crearListaPersonajesDto());
         assertNotNull(personajeService.filterCharacter(null, null, 1));
-        assertTrue(personajeService.filterCharacter(null, null, 1).size()>0);
+        assertTrue(personajeService.filterCharacter(null, null, 1).size() > 0);
     }
 }

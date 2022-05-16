@@ -22,10 +22,6 @@ class PersonajeRepositoryTest {
     @Autowired
     private PersonajeRepository personajeRepository;
 
-    @BeforeEach
-    void setUp() {
-
-    }
 
     @Test
     void findByIdTest() {
@@ -108,10 +104,9 @@ class PersonajeRepositoryTest {
     }
 
     @Test
-    @Disabled
     void softDeleteTestIdNoEncontrado() {
         Boolean fueBorrado = personajeRepository.softDelete(12);
-        
+
         assertNotNull(fueBorrado);
         assertFalse(fueBorrado);
     }

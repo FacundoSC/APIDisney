@@ -30,10 +30,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PeliculaServiceImpl implements PeliculaService {
     @Autowired
     PeliculaRepository peliculaRepository;
+
     @Autowired
     GeneroRepository generoRepository;
+
     @Autowired
     private MessageSource message;
+
     @Autowired
     private ModelMapperDTOImp mm;
 

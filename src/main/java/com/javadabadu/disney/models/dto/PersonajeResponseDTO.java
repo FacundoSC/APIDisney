@@ -2,12 +2,14 @@ package com.javadabadu.disney.models.dto;
 
 import com.javadabadu.disney.models.entity.TipoPersonaje;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PersonajeResponseDTO {
     private Integer id;
     private String nombre;

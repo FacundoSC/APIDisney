@@ -9,6 +9,7 @@ import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
 import com.javadabadu.disney.repository.PersonajeRepository;
 import com.javadabadu.disney.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class PersonajeServiceImpl implements PersonajeService {
     @Override
     public List<PersonajeResponseDTO> findAll() throws ExceptionBBDD {
         try {
-            return mapperDTO.listPersonajeToResponseDTO(personajeRepository.findAll());
+            return mapperDTO.listPersonajeToResponseDTO(personajeRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
         } catch (Exception e) {
             throw new ExceptionBBDD("Error en la transacción, contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
@@ -70,17 +71,14 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     @Override
     public Boolean existsById(Integer id) throws ExceptionBBDD {
-        try {
-            if (personajeRepository.existsById(id)) {
-                return personajeRepository.existsById(id);
-            } else {
+        try{
+            if (!personajeRepository.existsById(id)) {
                 return false;
             }
-
-        } catch (Exception e) {
+            return true;
+        }catch (Exception e){
             throw new ExceptionBBDD("Error en la transacción contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override

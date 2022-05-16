@@ -1,6 +1,5 @@
 package com.javadabadu.disney.models.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
