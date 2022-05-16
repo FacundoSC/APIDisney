@@ -39,7 +39,7 @@ public class PersonajeControllerWebTestClient {
                 .expectBody()
                 .jsonPath("$.nombre").isEqualTo("Nombre uno")
                 .jsonPath("$.id").isEqualTo(1);
-        ;
+
     }
 
     @Test

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PersonajeData {
+
     public static Personaje crearPersonajeUno(){
         return new Personaje(1,"Personaje nombre uno", 10, "Personaje historia uno", "/imagen/uno", 60, TipoPersonaje.REAL);
     }

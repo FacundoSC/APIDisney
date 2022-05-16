@@ -2,7 +2,6 @@ package com.javadabadu.disney.repository;
 
 import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.models.entity.TipoPersonaje;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +24,6 @@ class PersonajeRepositoryTest {
     @Test
     void findByIdTest() {
         Optional<Personaje> personaje = personajeRepository.findById(1);
-
         assertNotNull(personaje);
         assertEquals("Nombre uno", personaje.orElseThrow().getNombre());
     }
@@ -92,7 +89,6 @@ class PersonajeRepositoryTest {
     @Test
     void softDeleteTest() {
         Boolean fueBorrado = personajeRepository.softDelete(1);
-
         assertNotNull(fueBorrado);
         assertTrue(fueBorrado);
     }
