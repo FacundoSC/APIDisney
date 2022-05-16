@@ -22,4 +22,15 @@ public class PersonajeResponseDTO {
     public boolean getEstado (){
         return this.estado;
     }
+
+    public PersonajeResponseDTO(Integer id, String nombre, int edad, String historia, String imagen, float peso, TipoPersonaje tipo, boolean estado) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.historia = historia;
+        this.imagen = imagen;
+        this.peso = peso;
+        this.tipo = tipo;
+        this.estado = estado;
+    }
 }

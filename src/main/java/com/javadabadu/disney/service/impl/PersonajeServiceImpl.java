@@ -85,13 +85,11 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     @Override
     public Integer lastValueId() throws ExceptionBBDD {
-
-        if (personajeRepository.lastValueId() >= 1) {
-            return personajeRepository.lastValueId();
-        } else {
+        int lastValue = personajeRepository.lastValueId();
+        if (lastValue < 0) {
             throw new ExceptionBBDD("Error en la transacción, contactese con el ADMIN", HttpStatus.BAD_REQUEST);
         }
-
+        return lastValue;
     }
 
     @Override
@@ -115,7 +113,6 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     @Override
     public Personaje getEntitySave(Personaje personaje, Integer id) throws ExceptionBBDD {
-
         try {
             if (!existsById(id)) {
                 return personaje;
@@ -127,7 +124,6 @@ public class PersonajeServiceImpl implements PersonajeService {
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override
@@ -159,7 +155,6 @@ public class PersonajeServiceImpl implements PersonajeService {
         } catch (ExceptionBBDD ebd2) {
             throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     public Link getSelfLink(Integer id, HttpServletRequest request) throws ExceptionBBDD {
