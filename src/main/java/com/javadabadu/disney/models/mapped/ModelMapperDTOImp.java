@@ -120,5 +120,9 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
     public Serie requestDtoToSerie(SerieRequestDTO serieRequestDTO) {
         return modelMapper.map(serieRequestDTO, Serie.class);
     }
+    public SerieResponseDTO requestDtoToSerieResponseDto(SerieRequestDTO serieRequestDTO) {
+        return modelMapper.map(serieRequestDTO, SerieResponseDTO.class);
+    }
+
 
 }

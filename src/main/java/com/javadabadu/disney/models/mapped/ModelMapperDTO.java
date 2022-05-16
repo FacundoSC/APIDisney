@@ -38,4 +38,7 @@ public interface ModelMapperDTO {
 
     Serie requestDtoToSerie(SerieRequestDTO serieRequestDTO);
 
+     SerieResponseDTO requestDtoToSerieResponseDto(SerieRequestDTO serieRequestDTO);
+
+
 }

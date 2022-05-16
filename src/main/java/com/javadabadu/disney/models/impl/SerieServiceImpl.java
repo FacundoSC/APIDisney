@@ -183,4 +183,43 @@ public class SerieServiceImpl implements SerieService {
         serieRequestDTO.setGenero(mm.generoToResponseDTO(genero));
     }
 
-}
+    @Override
+    public SerieResponseDTO getSaveUpdateEntityRD(SerieRequestDTO serieRequestDTO,Integer id) throws ExceptionBBDD {
+
+        Serie serie = mm.requestDtoToSerie(serieRequestDTO);
+        setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
+        try {
+            if (!existsById(id)) {
+                return save(serie);
+            }
+            Serie aux=mm.responseDtoToSerie(serieRepository.findById(id)) ;
+            Serie seriejePorActualizar = aux;
+            serie.setId(id);
+            seriejePorActualizar = serie;
+            return save(seriejePorActualizar);
+        } catch (ExceptionBBDD ebd) {
+            throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
+    }
+
+    /*  @Override
+          public SerieResponseDTO getSaveUpdateEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
+              Serie source = null;
+              setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
+              if (existsById(id)) {
+                  source = mm.requestDtoToSerie(serieRequestDTO);
+                  source.setId(id);
+                  return mm.serieToResponseDTO(source);
+              }
+              source = mm.requestDtoToSerie(serieRequestDTO);
+              return mm.serieToResponseDTO(source);
+          }*/
+    @Override
+    public SerieResponseDTO saveRD(SerieRequestDTO serieRequestDTO) throws ExceptionBBDD {
+        Serie serie = mm.requestDtoToSerie()
+        return mm.requestDtoToSerieResponseDto(serieRepository.save());
+    }
+
+
+
+
+    }

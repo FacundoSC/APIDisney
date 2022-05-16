@@ -51,14 +51,34 @@ public class SerieController {
        return ResponseEntity.created(URI.create(request.getRequestURI()
                     + serieService.lastValueId())).body("Se creo un registro");
     }
-
+/*
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<SerieResponseDTO>> crear(@RequestBody SerieRequestDTO serieRequestDTO, @PathVariable Integer id, HttpServletRequest request) throws ExceptionBBDD {
         Serie source = serieService.getSaveEntity(serieRequestDTO,id);
         return  ResponseEntity.ok().body(EntityModel.of(serieService.save(source)
                 , serieService.getSelfLink(id, request)
                 , serieService.getCollectionLink(request)));
+    }*/
+
+/*
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crear(@RequestBody SerieRequestDTO serieRequestDTO, @PathVariable Integer id, HttpServletRequest request) throws ExceptionBBDD {
+      SerieResponseDTO serieDto = serieService.getSaveEntityRD(serieRequestDTO,id);
+        return  ResponseEntity.ok().body(EntityModel.of(serieService.saveRD(serieRequestDTO)
+                , serieService.getSelfLink(id, request)
+                , serieService.getCollectionLink(request)));
+    }*/
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crear(@RequestBody SerieRequestDTO serieRequestDTO,
+                                   @PathVariable Integer id,
+                                   HttpServletRequest request) throws ExceptionBBDD {
+        SerieResponseDTO personajeDTO = serieService.getSaveUpdateEntity(serieRequestDTO, id);
+        return ResponseEntity.ok().body(EntityModel.of(personajeDTO, serieService.getSelfLink(id, request), serieService.getCollectionLink(request)));
+
     }
+
+
 
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityModel<SerieResponseDTO>> update(@PathVariable Integer id,
