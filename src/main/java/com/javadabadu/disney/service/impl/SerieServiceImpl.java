@@ -116,11 +116,6 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public Serie getEntity(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
-        return null;
-    }
-
-    @Override
     public SerieResponseDTO updatePartial(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -164,19 +159,9 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public Serie getSaveEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
-        return null;
-    }
-
-    private void setGeneroForRequest(SerieRequestDTO serieRequestDTO, Integer idGenero) throws ExceptionBBDD {
-        return;
-    }
-
-    @Override
     public SerieResponseDTO getPersistenceEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
 
         Serie serie = mm.requestDtoToSerie(serieRequestDTO);
-        setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
 
         try {
             if (!existsById(id)) {

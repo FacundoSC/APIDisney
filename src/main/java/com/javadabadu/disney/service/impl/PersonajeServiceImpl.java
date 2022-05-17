@@ -3,6 +3,7 @@ package com.javadabadu.disney.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javadabadu.disney.controller.PersonajeController;
 import com.javadabadu.disney.exception.ExceptionBBDD;
+import com.javadabadu.disney.models.dto.PersonajeRequestDTO;
 import com.javadabadu.disney.models.dto.PersonajeResponseDTO;
 import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
@@ -160,6 +161,11 @@ public class PersonajeServiceImpl implements PersonajeService {
             throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @Override
+    public PersonajeResponseDTO save(PersonajeRequestDTO entity) throws ExceptionBBDD {
+        return null;
     }
 
     public Link getSelfLink(Integer id, HttpServletRequest request) throws ExceptionBBDD {
