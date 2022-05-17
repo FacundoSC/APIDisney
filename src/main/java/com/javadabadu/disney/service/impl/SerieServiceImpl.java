@@ -1,4 +1,4 @@
-package com.javadabadu.disney.models.impl;
+package com.javadabadu.disney.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javadabadu.disney.controller.SerieController;
@@ -20,7 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -71,15 +74,7 @@ public class SerieServiceImpl implements SerieService {
 
     @Override
     public Serie getEntitySave(Serie entity, Integer id) throws ExceptionBBDD {
-        Serie source = null;
-        setGenero(entity, entity.getGenero().getId());
-        if (existsById(id)) {
-            source = mm.responseDtoToSerie(findById(id));
-            entity.setId(id);
-            source = entity;
-            return source;
-        }
-        return entity;
+        return null;
     }
 
     @Override
@@ -122,6 +117,11 @@ public class SerieServiceImpl implements SerieService {
 
     @Override
     public Serie getEntity(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
+        return null;
+    }
+
+    @Override
+    public SerieResponseDTO updatePartial(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
         ObjectMapper mapper = new ObjectMapper();
 
         SerieDtoPatch serieDtoP = getSerieToModify(id, propiedades);
@@ -133,7 +133,7 @@ public class SerieServiceImpl implements SerieService {
             }
         });
         Serie searchedSerieMap2 = mapper.convertValue(searchedSerieMap, Serie.class);
-        return searchedSerieMap2;
+        return save(searchedSerieMap2);
     }
 
     private void setGenero(Serie entity, Integer idGenero) throws ExceptionBBDD {
@@ -160,66 +160,36 @@ public class SerieServiceImpl implements SerieService {
             Integer idGenero = (Integer) propGenId.get("id");
             setGenero(serie, idGenero);
         }
-        SerieDtoPatch serieDtoP = mm.seriePatchDto(serie);
-        return serieDtoP;
+        return mm.seriePatchDto(serie);
     }
 
     @Override
     public Serie getSaveEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
-        Serie source = null;
-        setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
-        if (existsById(id)) {
-            source = mm.requestDtoToSerie(serieRequestDTO);
-            source.setId(id);
-            return source;
-        }
-        return mm.requestDtoToSerie(serieRequestDTO);
+        return null;
     }
 
     private void setGeneroForRequest(SerieRequestDTO serieRequestDTO, Integer idGenero) throws ExceptionBBDD {
-        Genero genero = generoRepository.findById(idGenero).
-                orElseThrow(() -> new ExceptionBBDD
-                        (message.getMessage("id.genero.not.exist", new String[]{Integer.toString(idGenero)}, Locale.US), HttpStatus.NOT_FOUND));
-        serieRequestDTO.setGenero(mm.generoToResponseDTO(genero));
+        return;
     }
 
     @Override
-    public SerieResponseDTO getSaveUpdateEntityRD(SerieRequestDTO serieRequestDTO,Integer id) throws ExceptionBBDD {
+    public SerieResponseDTO getPersistenceEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
 
         Serie serie = mm.requestDtoToSerie(serieRequestDTO);
         setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
+
         try {
             if (!existsById(id)) {
+                setGenero(serie, serie.getGenero().getId());
                 return save(serie);
             }
-            Serie aux=mm.responseDtoToSerie(serieRepository.findById(id)) ;
-            Serie seriejePorActualizar = aux;
+            Serie seriePorActualizar = findSerie(id);
             serie.setId(id);
-            seriejePorActualizar = serie;
-            return save(seriejePorActualizar);
+            seriePorActualizar = serie;
+            return save(seriePorActualizar);
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBBDD("Error en la transaccion contacte con su ADM", HttpStatus.BAD_REQUEST);
+        }
     }
 
-    /*  @Override
-          public SerieResponseDTO getSaveUpdateEntity(SerieRequestDTO serieRequestDTO, Integer id) throws ExceptionBBDD {
-              Serie source = null;
-              setGeneroForRequest(serieRequestDTO, serieRequestDTO.getGenero().getId());
-              if (existsById(id)) {
-                  source = mm.requestDtoToSerie(serieRequestDTO);
-                  source.setId(id);
-                  return mm.serieToResponseDTO(source);
-              }
-              source = mm.requestDtoToSerie(serieRequestDTO);
-              return mm.serieToResponseDTO(source);
-          }*/
-    @Override
-    public SerieResponseDTO saveRD(SerieRequestDTO serieRequestDTO) throws ExceptionBBDD {
-        Serie serie = mm.requestDtoToSerie()
-        return mm.requestDtoToSerieResponseDto(serieRepository.save());
-    }
-
-
-
-
-    }
+}
