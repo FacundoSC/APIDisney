@@ -35,10 +35,8 @@ class PersonajeServiceImplTest {
     void findByIdTest() throws ExceptionBBDD {
 
         Optional<Personaje> personajeOptional = Optional.of(crearPersonajeUno());
-
         when(personajeRepository.findById(1)).thenReturn(personajeOptional);
         when(mapperDTO.personajeToResponseDTO(crearPersonajeUno())).thenReturn(PersonajeData.crearPersonajeDTOUno());
-
         assertNotNull(personajeService.findById(1));
         assertEquals(1, personajeService.findById(1).getId());
         assertEquals("Personaje nombre uno", personajeService.findById(1).getNombre());
@@ -93,7 +91,7 @@ class PersonajeServiceImplTest {
 
         assertTrue(personajeService.existsById(1));
         assertFalse(personajeService.existsById(2000));
-    }q
+    }
 
     @Test
     void lastValueTest() throws ExceptionBBDD {
