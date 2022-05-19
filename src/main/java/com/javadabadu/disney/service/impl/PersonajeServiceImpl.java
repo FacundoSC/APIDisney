@@ -5,6 +5,7 @@ import com.javadabadu.disney.controller.PersonajeController;
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.dto.PersonajeResponseDTO;
 import com.javadabadu.disney.models.entity.Personaje;
+import com.javadabadu.disney.models.mapped.ModelMapperDTO;
 import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
 import com.javadabadu.disney.repository.PersonajeRepository;
 import com.javadabadu.disney.service.PersonajeService;
@@ -28,7 +29,7 @@ public class PersonajeServiceImpl implements PersonajeService {
     PersonajeRepository personajeRepository;
 
     @Autowired
-    private ModelMapperDTOImp mapperDTO;
+    private ModelMapperDTO mapperDTO;
 
     @Override
     public PersonajeResponseDTO save(Personaje personaje) throws ExceptionBBDD {

@@ -8,6 +8,7 @@ import com.javadabadu.disney.models.dto.PeliculaResponseDTO;
 import com.javadabadu.disney.models.entity.AudioVisual;
 import com.javadabadu.disney.models.entity.Genero;
 import com.javadabadu.disney.models.entity.Pelicula;
+import com.javadabadu.disney.models.mapped.ModelMapperDTO;
 import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.repository.PeliculaRepository;
@@ -39,7 +40,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     private MessageSource message;
 
     @Autowired
-    private ModelMapperDTOImp mm;
+    private ModelMapperDTO mm;
 
     @Override
     public List<PeliculaResponseDTO> findAll() throws ExceptionBBDD {

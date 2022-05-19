@@ -1,11 +1,8 @@
 package com.javadabadu.disney.models.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class SerieRequestDTO extends AudioVisualRequestDTO{
 
     private Byte temporadas;

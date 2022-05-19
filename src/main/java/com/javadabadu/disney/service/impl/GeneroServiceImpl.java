@@ -5,6 +5,7 @@ import com.javadabadu.disney.controller.GeneroController;
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.dto.GeneroResponseDTO;
 import com.javadabadu.disney.models.entity.Genero;
+import com.javadabadu.disney.models.mapped.ModelMapperDTO;
 import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.service.GeneroService;
@@ -32,7 +33,7 @@ public class GeneroServiceImpl implements GeneroService {
     private MessageSource message;
 
     @Autowired
-    ModelMapperDTOImp mapperDTO;
+    private ModelMapperDTO mapperDTO;
 
     @Override
     public GeneroResponseDTO save(Genero genero) throws ExceptionBBDD {
@@ -41,7 +42,6 @@ public class GeneroServiceImpl implements GeneroService {
         } catch (Exception ebd) {
             throw new ExceptionBBDD("Error en la transacción contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override
