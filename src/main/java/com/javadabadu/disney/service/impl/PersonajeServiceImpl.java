@@ -37,7 +37,6 @@ public class PersonajeServiceImpl implements PersonajeService {
         } catch (Exception ebd) {
             throw new ExceptionBBDD("Error en la transacción contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override
@@ -58,12 +57,10 @@ public class PersonajeServiceImpl implements PersonajeService {
     @Override
     public String softDelete(Integer id) throws ExceptionBBDD {
         try {
-            if (personajeRepository.softDelete(id)) {
-                return "Se elimino el personaje seleccionado";
-            } else {
+            if (!personajeRepository.softDelete(id)) {
                 throw new ExceptionBBDD("Id no encontrado", HttpStatus.NOT_FOUND);
             }
-
+            return "Se elimino el personaje seleccionado";
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBBDD("Error en la transacción contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
