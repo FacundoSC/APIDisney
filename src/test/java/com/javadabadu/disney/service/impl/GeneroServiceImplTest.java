@@ -33,10 +33,10 @@ public class GeneroServiceImplTest {
     @Test
     void findByIdTest() throws ExceptionBBDD {
 
-        Optional<Genero> generoOptional = Optional.of(GeneroData.crearGeneroUno());
+        Optional<Genero> generoOptional = Optional.of(GeneroData.crearPrimerGenero());
 
         when(generoRepository.findById(1)).thenReturn(generoOptional);
-        when(mapperDTO.generoToResponseDTO(GeneroData.crearGeneroUno())).thenReturn(GeneroData.crearGeneroDTOUno());
+        when(mapperDTO.generoToResponseDTO(GeneroData.crearPrimerGenero())).thenReturn(GeneroData.crearPrimerGeneroDTO());
 
         assertNotNull(generoService.findById(1));
 
@@ -71,11 +71,11 @@ public class GeneroServiceImplTest {
     @Test
     void saveTest() throws ExceptionBBDD {
 
-        when(generoRepository.save(any())).thenReturn(GeneroData.crearGeneroUno());
-        when(mapperDTO.generoToResponseDTO(any())).thenReturn(GeneroData.crearGeneroDTOUno());
+        when(generoRepository.save(any())).thenReturn(GeneroData.crearPrimerGenero());
+        when(mapperDTO.generoToResponseDTO(any())).thenReturn(GeneroData.crearPrimerGeneroDTO());
 
-        assertEquals("Terror", generoService.save(GeneroData.crearGeneroUno()).getNombre());
-        assertEquals(1, generoService.save(GeneroData.crearGeneroUno()).getId());
+        assertEquals("Terror", generoService.save(GeneroData.crearPrimerGenero()).getNombre());
+        assertEquals(1, generoService.save(GeneroData.crearPrimerGenero()).getId());
 
         verify(generoRepository, times(2)).save(any());
         verify(mapperDTO, times(2)).generoToResponseDTO(any());

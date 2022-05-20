@@ -9,27 +9,27 @@ import java.util.List;
 
 public class GeneroData {
 
-    public static Genero crearGeneroUno() {
+    public static Genero crearPrimerGenero() {
         return new Genero(1, "Terror", "Imagen/Terror", true, new ArrayList<>());
     }
 
-    public static Genero crearGeneroDos() {
+    public static Genero crearSegundoGenero() {
         return new Genero(2, "Comedia", "Imagen/Comedia", true, new ArrayList<>());
     }
 
     public static List<Genero> crearListaGeneros() {
-        return Arrays.asList(crearGeneroUno(), crearGeneroDos());
+        return Arrays.asList(crearPrimerGenero(), crearSegundoGenero());
     }
 
-    public static GeneroResponseDTO crearGeneroDTOUno() {
+    public static GeneroResponseDTO crearPrimerGeneroDTO() {
         return new GeneroResponseDTO(1, "Terror", "Imagen/Terror", true);
     }
 
-    public static GeneroResponseDTO crearGeneroDTODos() {
+    public static GeneroResponseDTO crearSegundoGeneroDTO() {
         return new GeneroResponseDTO(2, "Comedia", "Imagen/Comedia", true);
     }
 
     public static List<GeneroResponseDTO> crearListaGenerosDto() {
-        return Arrays.asList(crearGeneroDTOUno(), crearGeneroDTODos());
+        return Arrays.asList(crearPrimerGeneroDTO(), crearSegundoGeneroDTO());
     }
 }
