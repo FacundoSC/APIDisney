@@ -8,6 +8,8 @@ import com.javadabadu.disney.models.dto.request.PersonajeRequestDTO;
 import com.javadabadu.disney.models.dto.request.SerieRequestDTO;
 import com.javadabadu.disney.models.dto.response.*;
 import com.javadabadu.disney.models.entity.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableMBeanExport;
 
 import java.util.List;
 

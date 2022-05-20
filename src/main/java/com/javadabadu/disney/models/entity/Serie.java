@@ -1,5 +1,6 @@
 package com.javadabadu.disney.models.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,8 +15,7 @@ import java.util.List;
 @Entity
 @PrimaryKeyJoinColumn(name = "serieId")
 @Table(name = "serie")
-@Getter
-@Setter
+@Data
 //@NoArgsConstructor
 public class Serie extends AudioVisual {
 
