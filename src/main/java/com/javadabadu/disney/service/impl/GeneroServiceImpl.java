@@ -6,11 +6,11 @@ import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.dto.GeneroResponseDTO;
 import com.javadabadu.disney.models.entity.Genero;
 import com.javadabadu.disney.models.mapped.ModelMapperDTO;
-import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class GeneroServiceImpl implements GeneroService {
     @Override
     public List<GeneroResponseDTO> findAll() throws ExceptionBBDD {
         try {
-            return mapperDTO.listGeneroToResponseDTO(generoRepository.findAll());
+            return mapperDTO.listGeneroToResponseDTO(generoRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
         } catch (Exception e) {
             throw new ExceptionBBDD("Error en la transacción, contacte con su ADM", HttpStatus.BAD_REQUEST);
         }
