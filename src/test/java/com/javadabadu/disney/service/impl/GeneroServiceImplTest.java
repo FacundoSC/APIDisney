@@ -4,9 +4,10 @@ package com.javadabadu.disney.service.impl;
 import com.javadabadu.disney.data.GeneroData;
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.entity.Genero;
-import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
+import com.javadabadu.disney.models.mapped.ModelMapperDTO;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.service.GeneroService;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,12 +26,13 @@ public class GeneroServiceImplTest {
     private GeneroService generoService;
 
     @MockBean
-    private ModelMapperDTOImp mapperDTO;
+    private ModelMapperDTO mapperDTO;
 
     @MockBean
     private GeneroRepository generoRepository;
 
     @Test
+    @Order(1)
     void findByIdTest() throws ExceptionBBDD {
 
         Optional<Genero> generoOptional = Optional.of(GeneroData.crearPrimerGenero());
@@ -49,6 +51,7 @@ public class GeneroServiceImplTest {
     }
 
     @Test
+    @Order(2)
     void findAllTest() throws ExceptionBBDD {
 
         when(generoRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))).thenReturn(GeneroData.crearListaGeneros());
@@ -69,6 +72,7 @@ public class GeneroServiceImplTest {
     }
 
     @Test
+    @Order(3)
     void saveTest() throws ExceptionBBDD {
 
         when(generoRepository.save(any())).thenReturn(GeneroData.crearPrimerGenero());
@@ -82,6 +86,7 @@ public class GeneroServiceImplTest {
     }
 
     @Test
+    @Order(4)
     void softDeleteTest() throws ExceptionBBDD {
 
         when(generoRepository.softDelete(1)).thenReturn(true);
@@ -94,6 +99,7 @@ public class GeneroServiceImplTest {
     }
 
     @Test
+    @Order(5)
     void existsByIdTest() throws ExceptionBBDD {
 
         when(generoRepository.existsById(1)).thenReturn(true);
@@ -103,6 +109,7 @@ public class GeneroServiceImplTest {
     }
 
     @Test
+    @Order(6)
     void lastValueIdTest() throws ExceptionBBDD {
 
         when(generoRepository.lastValueId()).thenReturn(5);
