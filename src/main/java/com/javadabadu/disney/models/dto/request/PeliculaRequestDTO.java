@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PeliculaRequestDTO extends AudioVisualRequestDTO {
+public class    PeliculaRequestDTO extends AudioVisualRequestDTO {
     private String duracion;
     private CalificacionPelicula calificacion;
 }
