@@ -43,7 +43,7 @@ class SerieRepositoryTest {
 
     @DisplayName("Validar referencia no nula serieRepository")
     @Test
-    @Order(10)
+    @Order(1)
     void serieRepositoryNotNullTest() {
         assertNotNull(serieRepository, "la referencia al  repositorio Serie es null");
     }
@@ -56,34 +56,9 @@ class SerieRepositoryTest {
         assertTrue(id instanceof Integer, "no es posible obtener el ultimo identificador");
     }
 
-    @DisplayName("Validar borrado de un an Serie")
-    @Test
-    @Order(3)
-    @Tag("lastId")
-    void softDeleteTest() {
-        assertEquals(true, serieRepository.softDelete(id));
-    }
-
-    @DisplayName("Validar la existencia de una Serie")
-    @Test
-    @Order(4)
-    @Tag("LastId")
-    void existSerieByIdTest() {
-        assertTrue(serieRepository.existsById(id), "no existe Serie con ese identificador");
-    }
-
-
-    @DisplayName("Validar la no existencia de una Serie")
-    @Test
-    @Order(5)
-    @Tag("NextID")
-    void notExistSerieByIdTest() {
-        assertFalse(serieRepository.existsById(id), "Ya existe Serie con ese identificador");
-    }
-
     @DisplayName("Validar el encontrar Serie  por Id")
     @Test
-    @Order(6)
+    @Order(3)
     void findSerieForIdTest() {
         Optional<AudioVisual> audiovisual = serieRepository.findById(29);
         assertTrue(audiovisual.isPresent(), " no se encontro la Serie buscada por id");
@@ -91,17 +66,9 @@ class SerieRepositoryTest {
 
     }
 
-    @DisplayName("Validar el obtener todas los AudioVisuales")
-    @Test
-    @Order(8)
-    void getAllAudioVisualTest() {
-        List<AudioVisual> series = serieRepository.findAll();
-        assertFalse(series.isEmpty(), "no se encuentran elementos  en la  lista");
-    }
-
     @DisplayName("Validar el guardar una Serie")
     @Test
-    @Order(1)
+    @Order(4)
     @Tag("NextID")
     void SaveSerieTest() {
         Serie serie = new Serie();
