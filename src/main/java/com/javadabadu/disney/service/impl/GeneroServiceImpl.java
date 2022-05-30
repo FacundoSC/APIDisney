@@ -11,6 +11,7 @@ import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class GeneroServiceImpl implements GeneroService {
     @Override
     public List<GeneroResponseDTO> findAll() throws ExceptionBBDD {
         try {
-            return mapperDTO.listGeneroToResponseDTO(generoRepository.findAll());
+            return mapperDTO.listGeneroToResponseDTO(generoRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
         } catch (Exception e) {
             throw new ExceptionBBDD(message.getMessage("error.admin", null, Locale.US), HttpStatus.BAD_REQUEST);
         }
