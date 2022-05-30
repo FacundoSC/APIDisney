@@ -74,7 +74,7 @@ class GeneroRepositoryTest {
     @Order(5)
     @Tag("NextID")
     void NotExistGeneroByIdTest() {
-        assertTrue(generoRepository.existsById(id), "existe genero con ese identificador");
+        assertFalse(generoRepository.existsById(id), "existe genero con ese identificador");
     }
 
     @DisplayName("Validar el encontrar genero  por Id")
@@ -91,7 +91,7 @@ class GeneroRepositoryTest {
     @Tag("NextID")
     void NotFindGeneroForIdTest() {
         Optional<Genero> genero = generoRepository.findById(id);
-        assertTrue(genero.isPresent(), " no se encontro el genero buscado por id");
+        assertFalse(genero.isPresent(), " no se encontro el genero buscado por id");
     }
 
     @DisplayName("Validar el obtener todos los generos")

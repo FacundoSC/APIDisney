@@ -3,8 +3,11 @@ package com.javadabadu.disney.controller;
 import com.javadabadu.disney.models.dto.request.GeneroRequestDTO;
 import com.javadabadu.disney.models.dto.request.SerieRequestDTO;
 import com.javadabadu.disney.models.dto.response.GeneroResponseDTO;
+import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.models.mapped.ModelMapperDTO;
+import com.javadabadu.disney.repository.AudioVisualRepository;
 import com.javadabadu.disney.repository.GeneroRepository;
+import com.javadabadu.disney.repository.PersonajeRepository;
 import com.javadabadu.disney.repository.SerieRepository;
 import com.javadabadu.disney.util.Uri;
 import org.junit.jupiter.api.Test;
@@ -13,7 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,6 +30,7 @@ class SerieControllerWebTestClient {
     private GeneroRepository generoRepository;
     @Autowired
     private SerieRepository serieRepository;
+
     @Autowired
     private ModelMapperDTO mm ;
     @Test
@@ -115,4 +121,34 @@ class SerieControllerWebTestClient {
                 .expectBody()
                 .jsonPath(".message").isEqualTo("Se elimino la serie seleccionada");
     }
+   @Test
+    void joinPersonajes() {
+        List<Integer> idPersonajes = new ArrayList<>();
+        idPersonajes.add(1);
+
+        client.patch()
+                .uri(Uri.SERIES + "/join/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(idPersonajes)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(3);
+       //         .jsonPath("$.personajes").isEqualTo(serieRepository.getById(3).getPersonajes());
+    }
+
+   /*  @Test
+    void removePersonaje() {
+        List<Integer> idPersonajes = new ArrayList<>();
+        idPersonajes.add(1);
+
+        client.patch()
+                .uri(Uri.SERIES + "/remove/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(idPersonajes)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(3);
+    }*/
 }
