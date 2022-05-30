@@ -125,7 +125,7 @@ public class PersonajeControllerWebTestClient {
                 .uri(uriBuilder -> uriBuilder
                         .path(Uri.PERSONAJES + "/filter")
                         .queryParam("name", "Nombre uno")
-                        .queryParam("age",20)
+                        .queryParam("age",10)
                         .build())
                 .exchange()
                 .expectStatus().isOk()
@@ -141,7 +141,7 @@ public class PersonajeControllerWebTestClient {
         client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(Uri.PERSONAJES + "/filter")
-                        .queryParam("age",30)
+                        .queryParam("age",20)
                         .build())
                 .exchange()
                 .expectStatus().isOk()

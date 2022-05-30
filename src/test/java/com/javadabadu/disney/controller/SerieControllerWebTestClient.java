@@ -35,23 +35,23 @@ class SerieControllerWebTestClient {
                 .expectStatus().isOk()
                 //.expectHeader().contentType(MediaType.toString("application/hal+json"))
                 .expectBody()
-                .jsonPath("$._embedded.serieResponseDTOList[0].id").isEqualTo(1)
-                .jsonPath("$._embedded.serieResponseDTOList[0].titulo").isEqualTo("Titulo uno")
-                .jsonPath("$._embedded.serieResponseDTOList[1].id").isEqualTo(2)
-                .jsonPath("$._embedded.serieResponseDTOList[1].titulo").isEqualTo("Titulo dos")
+                .jsonPath("$._embedded.serieResponseDTOList[0].id").isEqualTo(2)
+                .jsonPath("$._embedded.serieResponseDTOList[0].titulo").isEqualTo("Titulo dos")
+                .jsonPath("$._embedded.serieResponseDTOList[1].id").isEqualTo(3)
+                .jsonPath("$._embedded.serieResponseDTOList[1].titulo").isEqualTo("Titulo tres")
         ;
     }
 
     @Test
     void findById() {
         client.get()
-                .uri(Uri.SERIES + "/1")
+                .uri(Uri.SERIES + "/2")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.titulo").isEqualTo("Titulo uno")
-                .jsonPath("$.id").isEqualTo(1);
+                .jsonPath("$.titulo").isEqualTo("Titulo dos")
+                .jsonPath("$.id").isEqualTo(2);
     }
 
     @Test

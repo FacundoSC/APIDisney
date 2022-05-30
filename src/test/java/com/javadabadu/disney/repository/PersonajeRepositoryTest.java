@@ -37,7 +37,7 @@ class PersonajeRepositoryTest {
 
     @Test
     void saveTest() {
-        Personaje personaje = new Personaje(null, "Personaje test", 20, "Historia test", "/imagen/test",50, TipoPersonaje.REAL);
+        Personaje personaje = new Personaje(personajeRepository.lastValueId(), "Personaje test", 20, "Historia test", "/imagen/test",50, TipoPersonaje.REAL);
 
         Personaje personajeGuardado = personajeRepository.save(personaje);
         assertNotNull(personajeGuardado);

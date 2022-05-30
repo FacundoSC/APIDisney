@@ -60,7 +60,7 @@ class SerieRepositoryTest {
     @Test
     @Order(3)
     void findSerieForIdTest() {
-        Optional<AudioVisual> audiovisual = serieRepository.findById(29);
+        Optional<AudioVisual> audiovisual = serieRepository.findById(2);
         assertTrue(audiovisual.isPresent(), " no se encontro la Serie buscada por id");
         assertTrue(audiovisual.get() instanceof Serie, "El id encontrado no es una Serie");
 
