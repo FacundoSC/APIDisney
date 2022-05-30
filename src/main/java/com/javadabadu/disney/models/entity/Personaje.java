@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "personaje")
 public class Personaje {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 64)

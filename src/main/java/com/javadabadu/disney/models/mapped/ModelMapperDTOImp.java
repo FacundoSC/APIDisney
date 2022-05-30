@@ -1,6 +1,12 @@
 package com.javadabadu.disney.models.mapped;
 
-import com.javadabadu.disney.models.dto.*;
+import com.javadabadu.disney.models.dto.patch.PeliculaPatchDTO;
+import com.javadabadu.disney.models.dto.patch.SerieDtoPatch;
+import com.javadabadu.disney.models.dto.request.GeneroRequestDTO;
+import com.javadabadu.disney.models.dto.request.PeliculaRequestDTO;
+import com.javadabadu.disney.models.dto.request.PersonajeRequestDTO;
+import com.javadabadu.disney.models.dto.request.SerieRequestDTO;
+import com.javadabadu.disney.models.dto.response.*;
 import com.javadabadu.disney.models.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -14,34 +20,12 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
 
     @Override
     public PeliculaResponseDTO peliculaToResponseDTO(Pelicula pelicula) {
-        PeliculaResponseDTO peliculaDTO = modelMapper.map(pelicula, PeliculaResponseDTO.class);
-        return peliculaDTO;
+        return modelMapper.map(pelicula, PeliculaResponseDTO.class);
     }
 
     @Override
     public PersonajeResponseDTO personajeToResponseDTO(Personaje personaje) {
-        PersonajeResponseDTO personajeDTO = modelMapper.map(personaje, PersonajeResponseDTO.class);
-        return personajeDTO;
-    }
-
-    @Override
-    public Personaje personajeResponseDTOtoPersonaje(PersonajeResponseDTO personajeDTO) {
-
-      /*  Personaje personaje = new Personaje();
-        personaje.setEdad(personajeDTO.getEdad());
-        personaje.setNombre(personajeDTO.getNombre());
-        personaje.setImagen(personajeDTO.getImagen());
-        personaje.setHistoria(personajeDTO.getHistoria());
-        personaje.setPeso(personajeDTO.getPeso());
-        personaje.setTipo(personajeDTO.getTipo());
-        personaje.setEstado(personajeDTO.getEstado());
-        personaje.setId(personajeDTO.getId());
-        personaje.setAudioVisual(listAudiovisualResponseToAudiovisual(personajeDTO.getAudioVisual()));*/
-
-        Personaje personaje = modelMapper.map(personajeDTO, Personaje.class);
-
-
-        return personaje;
+        return modelMapper.map(personaje, PersonajeResponseDTO.class);
     }
 
     @Override
@@ -52,9 +36,18 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
     }
 
     @Override
+    public Personaje personajeRequestDtoToPersonaje(PersonajeRequestDTO personajeRequestDTO) {
+        return modelMapper.map(personajeRequestDTO, Personaje.class);
+    }
+
+    @Override
     public GeneroResponseDTO generoToResponseDTO(Genero genero) {
-        GeneroResponseDTO generoDTO = modelMapper.map(genero, GeneroResponseDTO.class);
-        return generoDTO;
+        return modelMapper.map(genero, GeneroResponseDTO.class);
+    }
+
+    @Override
+    public Genero generoRequestDtoToPersonaje(GeneroRequestDTO generoRequestDTO) {
+        return modelMapper.map(generoRequestDTO, Genero.class);
     }
 
     @Override
@@ -66,8 +59,7 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
 
     @Override
     public AudioVisualResponseDTO audioVisualToResponseDTO(AudioVisual audiovisual) {
-        AudioVisualResponseDTO audioVisualRespondeDTO = modelMapper.map(audiovisual, AudioVisualResponseDTO.class);
-        return audioVisualRespondeDTO;
+        return modelMapper.map(audiovisual, AudioVisualResponseDTO.class);
     }
 
     @Override
@@ -79,21 +71,12 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
 
     @Override
     public AudioVisual audioVisualResponseToAudiovisual(AudioVisualResponseDTO audiovisualDTO) {
-        AudioVisual audiovisual = modelMapper.map(audiovisualDTO, AudioVisual.class);
-        return audiovisual;
+        return modelMapper.map(audiovisualDTO, AudioVisual.class);
     }
 
-    @Override
-    public List<AudioVisual> listAudiovisualResponseToAudiovisual(List<AudioVisualResponseDTO> listAudiovisual) {
-        return listAudiovisual.stream()
-                .map(this::audioVisualResponseToAudiovisual)
-                .collect(Collectors.toList());
-    }
-
-    @Override
+     @Override
     public SerieResponseDTO serieToResponseDTO(Serie serie) {
-        SerieResponseDTO serieDTO = modelMapper.map(serie, SerieResponseDTO.class);
-        return serieDTO;
+         return modelMapper.map(serie, SerieResponseDTO.class);
     }
     @Override
     public Serie responseDtoToSerie(SerieResponseDTO serieResponseDTO) {
@@ -102,8 +85,7 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
 
     @Override
     public SerieDtoPatch seriePatchDto(Serie serie) {
-        SerieDtoPatch serieDTO = modelMapper.map(serie, SerieDtoPatch.class);
-        return serieDTO;
+        return modelMapper.map(serie, SerieDtoPatch.class);
     }
 
     @Override
@@ -119,6 +101,11 @@ public class ModelMapperDTOImp implements ModelMapperDTO {
     @Override
     public Serie requestDtoToSerie(SerieRequestDTO serieRequestDTO) {
         return modelMapper.map(serieRequestDTO, Serie.class);
+    }
+
+    @Override
+    public Pelicula requestDtoToPelicula(PeliculaRequestDTO peliculaRequestDTO) {
+        return modelMapper.map(peliculaRequestDTO, Pelicula.class);
     }
 
 }
