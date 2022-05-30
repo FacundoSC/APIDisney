@@ -49,7 +49,7 @@ class AudioVisualRepositoryTest {
     }
 
 
-    @DisplayName("Validar borrado de un an Serie")
+    @DisplayName("Validar borrado de un AudioVisual")
     @Test
     @Order(2)
     @Tag("lastId")
@@ -57,7 +57,7 @@ class AudioVisualRepositoryTest {
         assertEquals(true, serieRepository.softDelete(id));
     }
 
-    @DisplayName("Validar la existencia de una Serie")
+    @DisplayName("Validar la existencia de un AudioVisual")
     @Test
     @Order(3)
     @Tag("LastId")
@@ -66,7 +66,7 @@ class AudioVisualRepositoryTest {
     }
 
 
-    @DisplayName("Validar la no existencia de una Serie")
+    @DisplayName("Validar la no existencia de u AudioVisual")
     @Test
     @Order(4)
     @Tag("NextID")
