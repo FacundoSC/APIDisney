@@ -38,9 +38,9 @@ public class GeneroControllerWebTestClient {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.nombre").isEqualTo("Terror")
+                .jsonPath("$.nombre").isEqualTo("Drama")
                 .jsonPath("$.id").isEqualTo(2)
-                .jsonPath("$.imagen").isEqualTo("Imagen/Terror");
+                .jsonPath("$.imagen").isEqualTo("imagen/Drama");
 
     }
 
@@ -54,48 +54,48 @@ public class GeneroControllerWebTestClient {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
                 .jsonPath("$._embedded.generoResponseDTOList[1].id").isEqualTo(2)
-                .jsonPath("$._embedded.generoResponseDTOList[1].nombre").isEqualTo("Terror")
-                .jsonPath("$._embedded.generoResponseDTOList[1].imagen").isEqualTo("Imagen/Terror")
+                .jsonPath("$._embedded.generoResponseDTOList[1].nombre").isEqualTo("Drama")
+                .jsonPath("$._embedded.generoResponseDTOList[1].imagen").isEqualTo("imagen/Drama")
                 .jsonPath("$._embedded.generoResponseDTOList[2].id").isEqualTo(3)
                 .jsonPath("$._embedded.generoResponseDTOList[2].nombre").isEqualTo("Comedia")
-                .jsonPath("$._embedded.generoResponseDTOList[2].imagen").isEqualTo("Imagen/Comedia")
+                .jsonPath("$._embedded.generoResponseDTOList[2].imagen").isEqualTo("imagen/Comedia")
         ;
     }
 
     @Test
     @Order(3)
     void saveTest() {
-        Genero genero = new Genero(null, "Thriller", "Imagen/Thriller", true, new ArrayList<>());
+        Genero genero = new Genero(null, "Psicológico", "Imagen/Psicológico", true, new ArrayList<>());
 
         client.put()
-                .uri(Uri.GENEROS + "/4")
+                .uri(Uri.GENEROS + "/13")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(genero)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo(4)
-                .jsonPath("$.nombre").isEqualTo("Thriller")
-                .jsonPath("$.imagen").isEqualTo("Imagen/Thriller");
+                .jsonPath("$.id").isEqualTo(13)
+                .jsonPath("$.nombre").isEqualTo("Psicológico")
+                .jsonPath("$.imagen").isEqualTo("Imagen/Psicológico");
     }
 
     @Test
     @Order(4)
     void updateTest() {
         Map<String, Object> propiedades = new HashMap<>();
-        propiedades.put("imagen", "Imagen/ThrillerModifiy");
-        propiedades.put("nombre", "ThrillerModify");
+        propiedades.put("imagen", "Imagen/PsicológicoModify");
+        propiedades.put("nombre", "PsicológicoModify");
 
         client.patch()
-                .uri(Uri.GENEROS + "/4")
+                .uri(Uri.GENEROS + "/12")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(propiedades)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo(4)
-                .jsonPath("$.nombre").isEqualTo("ThrillerModify")
-                .jsonPath("$.imagen").isEqualTo("Imagen/ThrillerModifiy");
+                .jsonPath("$.id").isEqualTo(12)
+                .jsonPath("$.nombre").isEqualTo("PsicológicoModify")
+                .jsonPath("$.imagen").isEqualTo("Imagen/PsicológicoModify");
     }
 
     @Test

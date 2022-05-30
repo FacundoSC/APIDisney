@@ -1,6 +1,12 @@
 package com.javadabadu.disney.models.mapped;
 
-import com.javadabadu.disney.models.dto.*;
+import com.javadabadu.disney.models.dto.patch.PeliculaPatchDTO;
+import com.javadabadu.disney.models.dto.patch.SerieDtoPatch;
+import com.javadabadu.disney.models.dto.request.GeneroRequestDTO;
+import com.javadabadu.disney.models.dto.request.PeliculaRequestDTO;
+import com.javadabadu.disney.models.dto.request.PersonajeRequestDTO;
+import com.javadabadu.disney.models.dto.request.SerieRequestDTO;
+import com.javadabadu.disney.models.dto.response.*;
 import com.javadabadu.disney.models.entity.*;
 
 import java.util.List;
@@ -12,9 +18,11 @@ public interface ModelMapperDTO {
 
     List<PersonajeResponseDTO> listPersonajeToResponseDTO(List<Personaje> listPersonaje);
 
-    Personaje personajeResponseDTOtoPersonaje(PersonajeResponseDTO personajeDTO);
+    Personaje personajeRequestDtoToPersonaje(PersonajeRequestDTO personajeRequestDTO);
 
     GeneroResponseDTO generoToResponseDTO(Genero genero);
+
+    Genero generoRequestDtoToPersonaje(GeneroRequestDTO generoRequestDTO);
 
     List<GeneroResponseDTO> listGeneroToResponseDTO(List<Genero> listGenero);
 
@@ -23,8 +31,6 @@ public interface ModelMapperDTO {
     AudioVisualResponseDTO audioVisualToResponseDTO(AudioVisual audiovisual);
 
     AudioVisual audioVisualResponseToAudiovisual(AudioVisualResponseDTO audiovisualDTO);
-
-    List<AudioVisual> listAudiovisualResponseToAudiovisual(List<AudioVisualResponseDTO> listAudiovisual);
 
     SerieResponseDTO serieToResponseDTO(Serie serie);
 
@@ -37,5 +43,7 @@ public interface ModelMapperDTO {
     PeliculaPatchDTO peliculaPatchDTO(Pelicula pelicula);
 
     Serie requestDtoToSerie(SerieRequestDTO serieRequestDTO);
+
+    Pelicula requestDtoToPelicula(PeliculaRequestDTO peliculaRequestDTO);
 
 }

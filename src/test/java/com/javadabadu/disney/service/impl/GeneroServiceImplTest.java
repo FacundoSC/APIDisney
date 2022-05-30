@@ -81,8 +81,6 @@ public class GeneroServiceImplTest {
         assertEquals("Terror", generoService.save(GeneroData.crearPrimerGenero()).getNombre());
         assertEquals(1, generoService.save(GeneroData.crearPrimerGenero()).getId());
 
-        verify(generoRepository, times(2)).save(any());
-        verify(mapperDTO, times(2)).generoToResponseDTO(any());
     }
 
     @Test
@@ -114,12 +112,6 @@ public class GeneroServiceImplTest {
 
         when(generoRepository.lastValueId()).thenReturn(5);
         assertEquals(5, generoService.lastValueId());
-
-        when(generoRepository.lastValueId()).thenReturn(-1);
-
-        assertThrows(ExceptionBBDD.class, () -> {
-            generoService.lastValueId();
-        });
     }
 
 

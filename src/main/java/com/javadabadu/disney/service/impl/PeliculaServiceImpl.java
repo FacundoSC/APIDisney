@@ -3,52 +3,55 @@ package com.javadabadu.disney.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javadabadu.disney.controller.PeliculaController;
 import com.javadabadu.disney.exception.ExceptionBBDD;
-import com.javadabadu.disney.models.dto.PeliculaPatchDTO;
-import com.javadabadu.disney.models.dto.PeliculaResponseDTO;
+import com.javadabadu.disney.models.dto.patch.PeliculaPatchDTO;
+import com.javadabadu.disney.models.dto.request.PeliculaRequestDTO;
+import com.javadabadu.disney.models.dto.response.AudioVisualResponseDTO;
+import com.javadabadu.disney.models.dto.response.PeliculaResponseDTO;
 import com.javadabadu.disney.models.entity.AudioVisual;
 import com.javadabadu.disney.models.entity.Genero;
 import com.javadabadu.disney.models.entity.Pelicula;
 import com.javadabadu.disney.models.mapped.ModelMapperDTO;
-import com.javadabadu.disney.models.mapped.ModelMapperDTOImp;
+import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.repository.GeneroRepository;
 import com.javadabadu.disney.repository.PeliculaRepository;
+import com.javadabadu.disney.repository.PersonajeRepository;
 import com.javadabadu.disney.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class PeliculaServiceImpl implements PeliculaService {
     @Autowired
-    PeliculaRepository peliculaRepository;
-
+    private PeliculaRepository peliculaRepository;
     @Autowired
-    GeneroRepository generoRepository;
-
+    private GeneroRepository generoRepository;
+    @Autowired
+    private PersonajeRepository personajeRepository;
     @Autowired
     private MessageSource message;
-
     @Autowired
     private ModelMapperDTO mm;
 
     @Override
     public List<PeliculaResponseDTO> findAll() throws ExceptionBBDD {
-        List<PeliculaResponseDTO> peliculaResponseDTO = new ArrayList<>();
-        peliculaRepository.findAll().stream()
-                .filter(audioVisual -> audioVisual instanceof Pelicula)
-                .forEach(audioVisual -> peliculaResponseDTO.add(mm.peliculaToResponseDTO((Pelicula) audioVisual)));
-        return peliculaResponseDTO;
+        try {
+            return peliculaRepository.findAll().stream()
+                    .filter(Pelicula.class::isInstance)
+                    .map(audioVisual -> mm.peliculaToResponseDTO((Pelicula) audioVisual))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new ExceptionBBDD("Error en la transaccion contacte con su ADM");
+        }
     }
 
     @Override
@@ -70,27 +73,10 @@ public class PeliculaServiceImpl implements PeliculaService {
         }
     }
 
-    public Pelicula getEntitySave(Pelicula entity, Integer id) throws ExceptionBBDD {
-        Pelicula source = null;
-        setGenero(entity, entity.getGenero().getId());
-        try {
-            if (existsById(id)) {
-                source = mm.responseDtoToPelicula(findById(id));
-                entity.setId(id);
-                source = entity;
-                return source;
-            } else {
-                return entity;
-            }
-        }  catch (ExceptionBBDD ebd) {
-            throw new ExceptionBBDD(message.getMessage("error.admin", null, Locale.US), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     private void setGenero(Pelicula entity, Integer idGenero) throws ExceptionBBDD {
         Genero genero = generoRepository.findById(idGenero).
                 orElseThrow(() -> new ExceptionBBDD
-                        (message.getMessage("id.genero.not.exist", new String[]{Integer.toString(idGenero)}, Locale.US),HttpStatus.NOT_FOUND));
+                        (message.getMessage("id.genero.not.exist", new String[]{Integer.toString(idGenero)}, Locale.US), HttpStatus.NOT_FOUND));
         entity.setGenero(genero);
     }
 
@@ -119,19 +105,50 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public String softDelete(Integer id) throws ExceptionBBDD {
-          try {
-                if (peliculaRepository.softDelete(id)) {
-                    return message.getMessage("delete.success", null, Locale.US);
-                } else {
-                    throw new ExceptionBBDD(message.getMessage("id.not.found", new String[]{Integer.toString(id)}, Locale.US),HttpStatus.NOT_FOUND);
-                }
-            } catch (ExceptionBBDD ebd) {
-                throw new ExceptionBBDD(message.getMessage("error.admin", null, Locale.US), HttpStatus.BAD_REQUEST);
+        try {
+            if (peliculaRepository.softDelete(id)) {
+                return message.getMessage("delete.success", null, Locale.US);
+            } else {
+                throw new ExceptionBBDD(message.getMessage("id.not.found", new String[]{Integer.toString(id)}, Locale.US), HttpStatus.NOT_FOUND);
             }
+        } catch (ExceptionBBDD ebd) {
+            throw new ExceptionBBDD(message.getMessage("error.admin", null, Locale.US), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private PeliculaPatchDTO getPeliculaDtoToModify(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
+        Pelicula pelicula = findPelicula(id);
+
+        if (propiedades.containsKey("genero")) {
+            Map<String, Object> propID = (Map<String, Object>) propiedades.get("genero");
+            Integer idGenero = (Integer) propID.get("id");
+            setGenero(pelicula, idGenero);
+        }
+
+        PeliculaPatchDTO peliculaDTO = mm.peliculaPatchDTO(pelicula);
+
+        peliculaDTO.setCalificacion(peliculaDTO.getCalificacion() - 1);
+
+        return peliculaDTO;
+    }
+
+    public Pelicula findPelicula(Integer id) throws ExceptionBBDD {
+        AudioVisual av = peliculaRepository.findById(id).orElseThrow(() -> new ExceptionBBDD(message.getMessage("id.not.found", new String[]{Integer.toString(id)}, Locale.US), HttpStatus.NOT_FOUND));
+        if (av instanceof Pelicula) {
+            return (Pelicula) av;
+        }
+        throw new ExceptionBBDD(message.getMessage("id.not.movie", new String[]{Integer.toString(id)}, Locale.US), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public Pelicula getEntity(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
+    public PeliculaResponseDTO getPersistenceEntity(PeliculaRequestDTO peliculaRequestDTO, Integer id) throws ExceptionBBDD {
+        Pelicula pelicula = mm.requestDtoToPelicula(peliculaRequestDTO);
+        pelicula.setId(id);
+        return save(pelicula);
+    }
+
+    @Override
+    public PeliculaResponseDTO updatePartial(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
         ObjectMapper mapper = new ObjectMapper();
 
         PeliculaPatchDTO peliculaDTO = getPeliculaDtoToModify(id, propiedades);
@@ -141,33 +158,39 @@ public class PeliculaServiceImpl implements PeliculaService {
                 searchedPeliculaMap.replace(k, searchedPeliculaMap.get(k), v);
             }
         });
-
         Pelicula toPersist = mapper.convertValue(searchedPeliculaMap, Pelicula.class);
-
-        return toPersist;
+        return save(toPersist);
     }
 
-    private PeliculaPatchDTO getPeliculaDtoToModify(Integer id, Map<String, Object> propiedades) throws ExceptionBBDD {
-        Pelicula pelicula = findPelicula(id);
-
-        if(propiedades.containsKey("genero")){
-            Map<String, Object> propID = (Map<String, Object>) propiedades.get("genero");
-            Integer idGenero = (Integer) propID.get("id");
-            setGenero(pelicula,idGenero);
+    public AudioVisualResponseDTO joinPersonajes(Integer idPelicula, List<Integer> idPersonajes) throws ExceptionBBDD {
+        Pelicula pelicula = findPelicula(idPelicula);
+        if (!personajeRepository.getByIdIn(idPersonajes).isEmpty()) {
+        pelicula.setPersonajes(personajeRepository.getByIdIn(idPersonajes));
+        return mm.peliculaToResponseDTO(peliculaRepository.save(pelicula));
+        } else {
+            throw new ExceptionBBDD("No se encontraron los personajes en la BBDD", HttpStatus.NOT_FOUND);
         }
-
-        PeliculaPatchDTO peliculaDTO = mm.peliculaPatchDTO(pelicula);
-
-        peliculaDTO.setCalificacion(peliculaDTO.getCalificacion()-1);
-
-        return peliculaDTO;
     }
 
-    public Pelicula findPelicula(Integer id) throws ExceptionBBDD{
-        AudioVisual av = peliculaRepository.findById(id).orElseThrow(() -> new ExceptionBBDD(message.getMessage("id.not.found", new String[]{Integer.toString(id)}, Locale.US),HttpStatus.NOT_FOUND));
-        if (av instanceof Pelicula) {
-            return (Pelicula) av;
+    @Override
+    public AudioVisualResponseDTO removePersonaje(Integer idPelicula, List<Integer> personajesToDelete) throws ExceptionBBDD {
+        Pelicula pelicula = findPelicula(idPelicula);
+
+        List<Personaje> personajeList = pelicula.getPersonajes(),
+                personajesDeleted = personajeRepository.getByIdIn(personajesToDelete);
+
+        if (!personajesDeleted.isEmpty()) {
+
+            if (personajeList.removeAll(personajesDeleted)){ ;
+
+            pelicula.setPersonajes(personajeList);
+
+            return mm.peliculaToResponseDTO(peliculaRepository.save(pelicula));
+        }else{
+                throw new ExceptionBBDD("El personaje seleccionado no pertenece a esta pelicula", HttpStatus.NOT_FOUND);
+            }
+        } else {
+            throw new ExceptionBBDD("No se encontraron los personajes en la BBDD", HttpStatus.NOT_FOUND);
         }
-        throw new ExceptionBBDD(message.getMessage("id.not.movie", new String[]{Integer.toString(id)}, Locale.US),HttpStatus.NOT_FOUND);
     }
 }

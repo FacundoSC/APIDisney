@@ -1,6 +1,6 @@
 package com.javadabadu.disney.data;
 
-import com.javadabadu.disney.models.dto.PersonajeResponseDTO;
+import com.javadabadu.disney.models.dto.response.PersonajeResponseDTO;
 import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.models.entity.TipoPersonaje;
 

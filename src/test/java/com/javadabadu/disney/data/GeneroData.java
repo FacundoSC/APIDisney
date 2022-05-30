@@ -1,6 +1,6 @@
 package com.javadabadu.disney.data;
 
-import com.javadabadu.disney.models.dto.GeneroResponseDTO;
+import com.javadabadu.disney.models.dto.response.GeneroResponseDTO;
 import com.javadabadu.disney.models.entity.Genero;
 
 import java.util.ArrayList;
