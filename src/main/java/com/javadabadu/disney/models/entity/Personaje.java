@@ -1,6 +1,7 @@
 package com.javadabadu.disney.models.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,10 +9,10 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "personaje")
 public class Personaje {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 64)
@@ -38,4 +39,14 @@ public class Personaje {
 
     @ManyToMany(mappedBy="personajes")
     private List<AudioVisual> audioVisual = new ArrayList<>();
+
+    public Personaje(Integer id, String nombre, int edad, String historia, String imagen, float peso, TipoPersonaje tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.historia = historia;
+        this.imagen = imagen;
+        this.peso = peso;
+        this.tipo = tipo;
+    }
 }

@@ -15,11 +15,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SerieServiceImplTest {
+
+
     @Autowired
     private SerieService serieService;
 
@@ -34,8 +36,9 @@ class SerieServiceImplTest {
         Serie serieUno = new Serie(1, "Serie uno", "/imagen/serie/uno", new Genero(), new ArrayList<>(), (byte) 10, (byte) 100);
         Serie serieDos = new Serie(2, "Serie dos", "/imagen/serie/dos", new Genero(), new ArrayList<>(), (byte) 20, (byte) 200);
 
-        SerieResponseDTO serieUnoResponseDTO = new SerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", Calendar.getInstance(), "Terror", (byte) 10, (byte) 100);
-        SerieResponseDTO serieDosResponseDTO = new SerieResponseDTO(2, "Serie dos", "/imagen/serie/dos", Calendar.getInstance(), "Terror", (byte) 10, (byte) 100);
+        SerieResponseDTO serieUnoResponseDTO = getSerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", 10, 100);
+
+        SerieResponseDTO serieDosResponseDTO = getSerieResponseDTO(2, "Serie dos", "/imagen/serie/dos", 20, 200);
 
         List<AudioVisual> series = Arrays.asList(serieUno, serieDos);
 
@@ -44,7 +47,9 @@ class SerieServiceImplTest {
         when(modelMapperDTO.serieToResponseDTO((Serie) serieDos)).thenReturn(serieDosResponseDTO);
 
         assertNotNull(serieService.findAll());
+
         assertTrue(serieService.findAll().size() > 1);
+
 
         assertEquals(1, serieService.findAll().get(0).getId());
         assertEquals("Serie uno", serieService.findAll().get(0).getTitulo());
@@ -56,12 +61,25 @@ class SerieServiceImplTest {
         verify(modelMapperDTO, times(6)).serieToResponseDTO((Serie) serieUno);
         verify(modelMapperDTO, times(6)).serieToResponseDTO((Serie) serieDos);
 
+
+    }
+
+    private SerieResponseDTO getSerieResponseDTO(int id, String Serie_uno, String imagen, int x, int x1) {
+        SerieResponseDTO serieUnoResponseDTO = new SerieResponseDTO();
+        serieUnoResponseDTO.setId(id);
+        serieUnoResponseDTO.setTitulo(Serie_uno);
+        serieUnoResponseDTO.setImagen(imagen);
+        serieUnoResponseDTO.setFechaCreacion(Calendar.getInstance());
+        serieUnoResponseDTO.setGeneroNombre("Terror");
+        serieUnoResponseDTO.setTemporadas((byte) x);
+        serieUnoResponseDTO.setCapitulos((byte) x1);
+        return serieUnoResponseDTO;
     }
 
     @Test
     void findById() {
         Serie serieUno = new Serie(1, "Serie uno", "/imagen/serie/uno", new Genero(), new ArrayList<>(), (byte) 10, (byte) 100);
-        SerieResponseDTO serieUnoResponseDTO = new SerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", Calendar.getInstance(), "Terror", (byte) 10, (byte) 100);
+        SerieResponseDTO serieUnoResponseDTO = getSerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", 10, 100);
         when(modelMapperDTO.serieToResponseDTO(serieUno)).thenReturn(serieUnoResponseDTO);
 
     }
@@ -84,7 +102,7 @@ class SerieServiceImplTest {
     @Test
     void save() {
         Serie serieUno = new Serie(1, "Serie uno", "/imagen/serie/uno", new Genero(), new ArrayList<>(), (byte) 10, (byte) 100);
-        SerieResponseDTO serieUnoResponseDTO = new SerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", Calendar.getInstance(), "Terror", (byte) 10, (byte) 100);
+        SerieResponseDTO serieUnoResponseDTO = getSerieResponseDTO(1, "Serie uno", "/imagen/serie/uno", 10, 100);
         when(serieRepository.save(any())).thenReturn(serieUno);
         when((modelMapperDTO.serieToResponseDTO(any()))).thenReturn(serieUnoResponseDTO);
         assertEquals(1, serieRepository.save(serieUno).getId());

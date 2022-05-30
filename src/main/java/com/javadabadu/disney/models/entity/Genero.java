@@ -6,13 +6,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @Entity
 @Table(name = "genero")
 public class Genero {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 32, unique = true)
@@ -26,6 +24,4 @@ public class Genero {
 
     @OneToMany(mappedBy = "genero")
     private List<AudioVisual> audioVisuals = new ArrayList<>();
-
-
 }

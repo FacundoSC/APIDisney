@@ -24,7 +24,6 @@ public class Pelicula extends AudioVisual {
     @Column(nullable = false)
     private String duracion;
 
-
     public Pelicula() {
     }
 
@@ -37,5 +36,4 @@ public class Pelicula extends AudioVisual {
     public int getCalificacion() {
         return calificacion.get();
     }
-
 }

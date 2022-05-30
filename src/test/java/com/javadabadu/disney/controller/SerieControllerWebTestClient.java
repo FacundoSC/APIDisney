@@ -1,5 +1,6 @@
 package com.javadabadu.disney.controller;
 
+import com.javadabadu.disney.models.dto.request.GeneroRequestDTO;
 import com.javadabadu.disney.models.dto.request.SerieRequestDTO;
 import com.javadabadu.disney.models.dto.response.GeneroResponseDTO;
 import com.javadabadu.disney.models.mapped.ModelMapperDTO;
@@ -65,11 +66,14 @@ class SerieControllerWebTestClient {
    @Test
     void crear() {
       Byte num=10;
-      GeneroResponseDTO generoResponseDTO =mm.generoToResponseDTO(generoRepository.findById(1).get());
+      GeneroRequestDTO generoRequestDTO = new GeneroRequestDTO();
+      generoRequestDTO.setId(1);
+      generoRequestDTO.setNombre("terror");
+      generoRequestDTO.setImagen("imagen/terror");
        SerieRequestDTO serieRequestDTO= new SerieRequestDTO();
        serieRequestDTO.setTitulo("Titulo cuatro");
        serieRequestDTO.setImagen("imagen/cuatro");
-       serieRequestDTO.setGenero(generoResponseDTO);
+       serieRequestDTO.setGenero(generoRequestDTO);
        serieRequestDTO.setCapitulos(num);
        serieRequestDTO.setTemporadas(num);
 
