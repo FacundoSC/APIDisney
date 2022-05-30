@@ -137,18 +137,4 @@ class SerieControllerWebTestClient {
        //         .jsonPath("$.personajes").isEqualTo(serieRepository.getById(3).getPersonajes());
     }
 
-   /*  @Test
-    void removePersonaje() {
-        List<Integer> idPersonajes = new ArrayList<>();
-        idPersonajes.add(1);
-
-        client.patch()
-                .uri(Uri.SERIES + "/remove/3")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(idPersonajes)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.id").isEqualTo(3);
-    }*/
 }
