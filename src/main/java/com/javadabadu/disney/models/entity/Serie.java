@@ -19,7 +19,6 @@ public class Serie extends AudioVisual {
 
     @Column(nullable = false)
     private Byte temporadas;
-
     @Column(nullable = false)
     private Byte capitulos;
 

@@ -2,6 +2,7 @@ package com.javadabadu.disney.models.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +10,7 @@ import java.util.Calendar;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class AVResponseWithoutCharDTO {
     private Integer id;
     private String titulo;
