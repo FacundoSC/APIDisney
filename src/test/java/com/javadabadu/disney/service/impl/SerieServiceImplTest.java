@@ -1,11 +1,14 @@
 package com.javadabadu.disney.service.impl;
 
+import com.javadabadu.disney.data.PersonajeData;
 import com.javadabadu.disney.exception.ExceptionBBDD;
 import com.javadabadu.disney.models.dto.response.SerieResponseDTO;
 import com.javadabadu.disney.models.entity.AudioVisual;
 import com.javadabadu.disney.models.entity.Genero;
+import com.javadabadu.disney.models.entity.Personaje;
 import com.javadabadu.disney.models.entity.Serie;
 import com.javadabadu.disney.models.mapped.ModelMapperDTO;
+import com.javadabadu.disney.repository.PersonajeRepository;
 import com.javadabadu.disney.repository.SerieRepository;
 import com.javadabadu.disney.service.SerieService;
 import org.junit.jupiter.api.Test;
@@ -27,6 +30,8 @@ class SerieServiceImplTest {
 
     @MockBean
     private SerieRepository serieRepository;
+    @MockBean
+    private PersonajeRepository personajeRepository;
 
     @MockBean
     private ModelMapperDTO modelMapperDTO;
@@ -132,5 +137,21 @@ class SerieServiceImplTest {
         assertTrue(serieOptional.get() instanceof Serie, "id.not.serie");
 
     }
+
+    @Test
+    void joinPersonajes() {
+
+        List<Integer> idPersonajes = new ArrayList<>();
+        idPersonajes.add(1);
+        idPersonajes.add(2);
+        List<Personaje>listaPersonaje = PersonajeData.crearListaPersonajes();
+        Serie serieUno = new Serie(1, "Serie uno", "/imagen/serie/uno", new Genero(), listaPersonaje, (byte) 10, (byte) 100);
+        serieUno.setPersonajes(listaPersonaje);
+        when(personajeRepository.getByIdIn(any())).thenReturn(listaPersonaje);
+        when(serieRepository.save(any())).thenReturn(serieUno);
+        assertEquals(listaPersonaje, serieRepository.save(serieUno).getPersonajes());
+        assertEquals("Personaje nombre uno", serieRepository.save(serieUno).getPersonajes().get(0).getNombre());
+           }
+
 
 }

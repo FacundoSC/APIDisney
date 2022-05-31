@@ -16,6 +16,9 @@ public class PersonajeData {
         return new Personaje(2,"Personaje nombre dos", 20, "Personaje historia dos", "/imagen/dos", 60, TipoPersonaje.ANIMADO);
     }
 
+    public static Personaje crearPersonajeTres(){
+        return new Personaje(3,"Personaje nombre tres", 20, "Personaje historia tres", "/imagen/tres", 60, TipoPersonaje.ANIMADO);
+    }
     public static List<Personaje> crearListaPersonajes(){
         return Arrays.asList(crearPersonajeUno(), crearPersonajeDos());
     }
@@ -28,7 +31,14 @@ public class PersonajeData {
         return new PersonajeResponseDTO(2,"Personaje nombre dos", 20, "Personaje historia dos", "/imagen/dos", 60, TipoPersonaje.ANIMADO,true);
     }
 
+
     public static List<PersonajeResponseDTO> crearListaPersonajesDto(){
         return Arrays.asList(crearPersonajeDTOUno(), crearPersonajeDTODos());
+    }
+    public static List<Personaje> crearListaPersonajesTres(){
+        return Arrays.asList(crearPersonajeUno(), crearPersonajeDos(),crearPersonajeTres());
+    }
+    public static List<Personaje> crearListaPersonajesUno(){
+        return Arrays.asList(crearPersonajeTres());
     }
 }
